@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     private void CheckIfCanJump()
     {
         if((isGrounded && rb.velocity.y <= 0) || isWallSliding){
-            Debug.Log("x");
+           
             amountOfJumpsLeft = amountOfJumps;
         } 
         if(amountOfJumpsLeft <= 0){
@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour
         else if(!isFacingRight && movementInputDirection > 0){
             Flip();
         }
-
-        if(rb.velocity.x != 0){
+        Debug.Log(rb.velocity.x );
+        if(Mathf.Round(rb.velocity.x) != 0){
             isWalking = true;
         } else {
             isWalking = false;
