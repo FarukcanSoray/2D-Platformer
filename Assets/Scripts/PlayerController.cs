@@ -186,8 +186,8 @@ public class PlayerController : MonoBehaviour
         {
             Flip();
         }
-        Debug.Log(rb.velocity.x);
-        if (Mathf.Round(rb.velocity.x) != 0)
+
+        if (Mathf.Abs(rb.velocity.x) >= 0.01f)
         {
             isWalking = true;
         }
@@ -196,6 +196,17 @@ public class PlayerController : MonoBehaviour
             isWalking = false;
         }
     }
+
+    public void EnableFlip()
+    {
+        canFlip = true;
+    }
+
+    public void DisableFlip()
+    {
+        canFlip = false;
+    }
+
 
     private void Flip()
     {
