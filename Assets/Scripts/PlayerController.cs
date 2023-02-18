@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate(){
         ApplyMovement();
         CheckSurroundings();
+        Debug.Log(rb.velocity.y);
     }
 
     private void CheckIfWallSliding(){
@@ -104,7 +105,6 @@ public class PlayerController : MonoBehaviour
         else if(!isFacingRight && movementInputDirection > 0){
             Flip();
         }
-        Debug.Log(rb.velocity.x );
         if(Mathf.Round(rb.velocity.x) != 0){
             isWalking = true;
         } else {
