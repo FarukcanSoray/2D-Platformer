@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
     private float movementInputDirection;
     private float jumpTimer;
     private float turnTimer;
+    private float wallJumpTimer;
     private int amountOfJumpsLeft;
     private int facingDirection = 1;
+    private int lastWallJumpDirection;
     private bool isFacingRight = true;
     private bool isWalking;
     private bool isGrounded;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool checkJumpMultiplier;
     private bool canMove;
     private bool canFlip;
+    private bool hasWallJumped;
     private Rigidbody2D rb;
     private Animator anim;
     public int amountOfJumps = 1;
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public float wallJumpForce;
     public float jumpTimerSet = 0.15f;
     public float turnTimerSet = 0.1f;
+    public float wallJumpTimerSet = 0.5f;
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
     public Transform groundCheck;
@@ -173,6 +177,18 @@ public class PlayerController : MonoBehaviour
         if(isAttemptingToJump){
             jumpTimer -= Time.deltaTime;
         }
+        if(wallJumpTimer > 0){
+            if(hasWallJumped && movementInputDirection == - lastWallJumpDirection){
+                rb.velocity = new Vector2(rb.velocity.x, 0.0f);
+                hasWallJumped = false;
+            }
+            else if(wallJumpTimer <= 0){
+                hasWallJumped = false;
+            }
+            else{
+                wallJumpTimer -= Time.deltaTime;
+            }
+        }
     }
 
     private void NormalJump(){
@@ -198,6 +214,9 @@ public class PlayerController : MonoBehaviour
             turnTimer = 0;
             canMove = true;
             canFlip = true;
+            hasWallJumped = true;
+            wallJumpTimer = wallJumpTimerSet;
+            lastWallJumpDirection = - facingDirection;
         }
     }
 
