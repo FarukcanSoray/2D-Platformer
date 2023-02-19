@@ -79,7 +79,6 @@ public class BasicEnemyController : MonoBehaviour
         groundDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
 
         wallDetected = Physics2D.Raycast(wallCheck.position, new Vector2(facingDirection, 0.0f), wallCheckDistance, whatIsGround);
-        Debug.Log("transform right" + transform.right);
         CheckTouchDamage();
         if (!groundDetected || wallDetected)
         {
