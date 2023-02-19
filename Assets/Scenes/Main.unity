@@ -3843,6 +3843,8 @@ MonoBehaviour:
   idleStateData: {fileID: 11400000, guid: 7e00149bfa8f42c44a01004d36a3a1f8, type: 2}
   moveStateData: {fileID: 11400000, guid: 2a6e956ddb6f704428babf84b1234a13, type: 2}
   playerDetectedData: {fileID: 11400000, guid: 5c1e4eb61aeb25143b83bb561bad6094, type: 2}
+  chargeStateData: {fileID: 11400000, guid: 9b4fbe7c7f3496145affe4f572b044ee, type: 2}
+  lookForPlayerStateData: {fileID: 11400000, guid: 414e27a2bcc45014c8d1348518bcb809, type: 2}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
