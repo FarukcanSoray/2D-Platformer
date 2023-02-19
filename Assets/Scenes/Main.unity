@@ -3845,6 +3845,8 @@ MonoBehaviour:
   playerDetectedData: {fileID: 11400000, guid: 5c1e4eb61aeb25143b83bb561bad6094, type: 2}
   chargeStateData: {fileID: 11400000, guid: 9b4fbe7c7f3496145affe4f572b044ee, type: 2}
   lookForPlayerStateData: {fileID: 11400000, guid: 414e27a2bcc45014c8d1348518bcb809, type: 2}
+  meleeAttackStateData: {fileID: 11400000, guid: 1908a318f59dbe6409d13e8f794159c4, type: 2}
+  meleeAttackPosition: {fileID: 1575311874}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4508,6 +4510,7 @@ GameObject:
   - component: {fileID: 994239030}
   - component: {fileID: 994239033}
   - component: {fileID: 994239032}
+  - component: {fileID: 994239034}
   m_Layer: 9
   m_Name: Alive
   m_TagString: Enemy
@@ -4531,6 +4534,7 @@ Transform:
   - {fileID: 413075062}
   - {fileID: 2103395086}
   - {fileID: 575139025}
+  - {fileID: 1575311874}
   m_Father: {fileID: 419931375}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4653,6 +4657,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &994239034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994239028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c61038eea9678544abf2989d4a445fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1067439506
 GameObject:
   m_ObjectHideFlags: 0
@@ -17525,6 +17541,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6705426574386540392, guid: 33d359e81d3c26e48930c1a149bdbf1c, type: 3}
   m_PrefabInstance: {fileID: 6705426573624256230}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1575311873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1575311874}
+  m_Layer: 9
+  m_Name: MeleeAttackPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1575311874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575311873}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.02, y: -0.301, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 994239029}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1851273268
 GameObject:
   m_ObjectHideFlags: 0
@@ -17720,6 +17767,10 @@ PrefabInstance:
     - target: {fileID: 6705426574386540397, guid: 33d359e81d3c26e48930c1a149bdbf1c, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6705426574386540406, guid: 33d359e81d3c26e48930c1a149bdbf1c, type: 3}
+      propertyPath: dashSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33d359e81d3c26e48930c1a149bdbf1c, type: 3}
