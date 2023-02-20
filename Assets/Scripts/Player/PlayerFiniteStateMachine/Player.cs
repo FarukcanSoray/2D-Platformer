@@ -9,12 +9,20 @@ public class Player : MonoBehaviour
 
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
+    public PlayerJumpState jumpState { get; private set; }
+    public PlayerInAirState inAirState { get; private set; }
+    public PlayerLandState landState { get; private set; }
     [SerializeField]
     private PlayerData playerData;
     #endregion
 
-    #region Components
 
+    #region Check Transforms
+    [SerializeField]
+    private Transform groundCheck;
+    #endregion
+
+    #region Components
     public Animator anim { get; private set; }
     public PlayerInputHandler inputHandler { get; private set; }
     public Rigidbody2D rb { get; private set; }
@@ -34,6 +42,9 @@ public class Player : MonoBehaviour
 
         idleState = new PlayerIdleState(this, stateMachine, playerData, "idle");
         moveState = new PlayerMoveState(this, stateMachine, playerData, "move");
+        jumpState = new PlayerJumpState(this, stateMachine, playerData, "inAir");
+        inAirState = new PlayerInAirState(this, stateMachine, playerData, "inAir");
+        landState = new PlayerLandState(this, stateMachine, playerData, "land");
     }
 
     private void Start()
@@ -66,9 +77,20 @@ public class Player : MonoBehaviour
         rb.velocity = workspace;
         currentVelocity = workspace;
     }
+
+    public void SetVelocityY(float velocity)
+    {
+        workspace.Set(currentVelocity.x, velocity);
+        rb.velocity = workspace;
+        currentVelocity = workspace;
+    }
     #endregion
 
     #region Check Functions
+    public bool CheckIfGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
+    }
     public void CheckIfShouldFlip(int xInput)
     {
         if (xInput != 0 && xInput != facingDirection)
@@ -79,6 +101,8 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Other Functions
+    private void AnimationTrigger() => stateMachine.currentState.AnimationTrigger();
+    private void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     private void Flip()
     {
         facingDirection *= -1;
