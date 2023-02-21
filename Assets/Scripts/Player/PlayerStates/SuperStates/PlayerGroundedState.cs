@@ -41,7 +41,6 @@ public class PlayerGroundedState : PlayerState
 
         if (jumpInput && player.jumpState.CanJump())
         {
-            player.inputHandler.UseJumpInput();
             stateMachine.ChangeState(player.jumpState);
         }
         else if (!isGrounded)
