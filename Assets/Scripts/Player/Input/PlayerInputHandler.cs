@@ -93,7 +93,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
         else if (context.canceled)
         {
-            dashInputStop = false;
+            dashInputStop = true;
         }
     }
 
@@ -101,12 +101,15 @@ public class PlayerInputHandler : MonoBehaviour
     {
         rawDashDirectionInput = context.ReadValue<Vector2>();
 
+
         if (playerInput.currentControlScheme == "Keyboard")
         {
-            rawDashDirectionInput = cam.ScreenToWorldPoint((Vector3)rawDashDirectionInput) - transform.position;
-        }
+            //TODO: check the effect of third param of vector3
+            rawDashDirectionInput = cam.ScreenToWorldPoint(new Vector3(rawDashDirectionInput.x, rawDashDirectionInput.y, 10.0f)) - transform.position;
 
+        }
         dashDirectionInput = Vector2Int.RoundToInt(rawDashDirectionInput.normalized);
+
     }
 
     public void UseDashInput() => dashInput = false;
