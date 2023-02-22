@@ -5,20 +5,33 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
+    private PlayerInput playerInput;
+    private Camera cam;
     public Vector2 rawMovementInput { get; private set; }
+    public Vector2 rawDashDirectionInput { get; private set; }
+    public Vector2Int dashDirectionInput { get; private set; }
     public int normInputX { get; private set; }
     public int normInputY { get; private set; }
     public bool jumpInput { get; private set; }
     public bool jumpInputStop { get; private set; }
     public bool grabInput { get; private set; }
+    public bool dashInput { get; private set; }
+    public bool dashInputStop { get; private set; }
 
     [SerializeField]
     private float inputHoldTime = 0.2f;
     private float jumpInputStartTime;
+    private float dashInputStartTime;
 
+    private void Start()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        cam = Camera.main;
+    }
     private void Update()
     {
         CheckJumpInputHoldTime();
+        CheckDashInputHoldTime();
     }
     public void OnMoveInput(InputAction.CallbackContext context)
     {
@@ -70,6 +83,33 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    public void OnDashInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            dashInput = true;
+            dashInputStop = false;
+            dashInputStartTime = Time.time;
+        }
+        else if (context.canceled)
+        {
+            dashInputStop = false;
+        }
+    }
+
+    public void OnDashDirectionInput(InputAction.CallbackContext context)
+    {
+        rawDashDirectionInput = context.ReadValue<Vector2>();
+
+        if (playerInput.currentControlScheme == "Keyboard")
+        {
+            rawDashDirectionInput = cam.ScreenToWorldPoint((Vector3)rawDashDirectionInput) - transform.position;
+        }
+
+        dashDirectionInput = Vector2Int.RoundToInt(rawDashDirectionInput.normalized);
+    }
+
+    public void UseDashInput() => dashInput = false;
     public void UseJumpInput() => jumpInput = false;
 
     private void CheckJumpInputHoldTime()
@@ -77,6 +117,14 @@ public class PlayerInputHandler : MonoBehaviour
         if (Time.time >= jumpInputStartTime + inputHoldTime)
         {
             jumpInput = false;
+        }
+    }
+
+    private void CheckDashInputHoldTime()
+    {
+        if (Time.time >= dashInputStartTime + inputHoldTime)
+        {
+            dashInput = false;
         }
     }
 }

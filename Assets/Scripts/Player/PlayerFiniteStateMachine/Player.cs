@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public PlayerWallClimbState wallClimbState { get; private set; }
     public PlayerWallJumpState wallJumpState { get; private set; }
     public PlayerLedgeClimbState ledgeClimbState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
     [SerializeField]
     private PlayerData playerData;
     #endregion
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
     public Animator anim { get; private set; }
     public PlayerInputHandler inputHandler { get; private set; }
     public Rigidbody2D rb { get; private set; }
+    public Transform dashDirectionIndicator { get; private set; }
     #endregion
 
     #region Other Variables
@@ -58,6 +60,7 @@ public class Player : MonoBehaviour
         wallClimbState = new PlayerWallClimbState(this, stateMachine, playerData, "wallClimb");
         wallJumpState = new PlayerWallJumpState(this, stateMachine, playerData, "inAir");
         ledgeClimbState = new PlayerLedgeClimbState(this, stateMachine, playerData, "ledgeClimbState");
+        dashState = new PlayerDashState(this, stateMachine, playerData, "inAir");
     }
 
     private void Start()
@@ -65,6 +68,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         inputHandler = GetComponent<PlayerInputHandler>();
         rb = GetComponent<Rigidbody2D>();
+        dashDirectionIndicator = transform.Find("DashDirectionIndicator");
 
         facingDirection = 1;
 
@@ -94,6 +98,12 @@ public class Player : MonoBehaviour
     {
         angle.Normalize();
         workspace.Set(angle.x * velocity * direction, angle.y * velocity);
+        rb.velocity = workspace;
+        currentVelocity = workspace;
+    }
+    public void SetVelocity(float velocity, Vector2 direction)
+    {
+        workspace = direction * velocity;
         rb.velocity = workspace;
         currentVelocity = workspace;
     }

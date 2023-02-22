@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PlayerInAirState : PlayerState
 {
+    //input
     private int xInput;
-    private bool isGrounded;
     private bool jumpInput;
     private bool jumpInputStop;
+    private bool grabInput;
+    private bool dashInput;
+    //checks
+    private bool isGrounded;
     private bool coyoteTime;
     private bool wallJumpCoyoteTime;
     private bool isJumping;
@@ -15,8 +19,8 @@ public class PlayerInAirState : PlayerState
     private bool isTouchingWallBack;
     private bool oldIsTouchingWall;
     private bool oldIsTouchingWallBack;
-    private bool grabInput;
     private bool isTouchingLedge;
+
 
     private float startWallJumpCoyoteTime;
 
@@ -74,6 +78,7 @@ public class PlayerInAirState : PlayerState
         jumpInput = player.inputHandler.jumpInput;
         jumpInputStop = player.inputHandler.jumpInputStop;
         grabInput = player.inputHandler.grabInput;
+        dashInput = player.inputHandler.dashInput;
 
         CheckJumpMultiplier();
 
@@ -100,9 +105,13 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.wallSlideState);
         }
-        else if (isTouchingWall && grabInput)
+        else if (isTouchingWall && grabInput && isTouchingLedge)
         {
             stateMachine.ChangeState(player.wallGrabState);
+        }
+        else if (dashInput && player.dashState.CheckIfCanDash())
+        {
+            stateMachine.ChangeState(player.dashState);
         }
         else
         {
