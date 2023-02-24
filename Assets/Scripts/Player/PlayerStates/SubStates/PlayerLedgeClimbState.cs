@@ -12,9 +12,11 @@ public class PlayerLedgeClimbState : PlayerState
     private bool isHanging;
     private bool isClimbing;
     private bool jumpInput;
+    private bool isTouchingCeiling;
 
     private int xInput;
     private int yInput;
+    //TODO: ledge grab only works first time fix
     public PlayerLedgeClimbState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -67,7 +69,15 @@ public class PlayerLedgeClimbState : PlayerState
 
         if (isAnimationFinished)
         {
-            stateMachine.ChangeState(player.idleState);
+            if (isTouchingCeiling)
+            {
+                stateMachine.ChangeState(player.crouchIdleState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.idleState);
+            }
+
         }
         else
         {
@@ -80,6 +90,7 @@ public class PlayerLedgeClimbState : PlayerState
 
             if (xInput == player.facingDirection && isHanging && !isClimbing)
             {
+                CheckForSpace();
                 isClimbing = true;
                 player.anim.SetBool("climbLedge", true);
             }
@@ -102,4 +113,9 @@ public class PlayerLedgeClimbState : PlayerState
     }
 
     public void SetDetectedPosition(Vector2 pos) => detectedPos = pos;
+    private void CheckForSpace()
+    {
+        isTouchingCeiling = Physics2D.Raycast(cornerPos + (Vector2.up * 0.015f) + (Vector2.right * player.facingDirection * 0.015f), Vector2.up, playerData.standColliderHeight, playerData.whatIsGround);
+        player.anim.SetBool("isTouchingCeiling", isTouchingCeiling);
+    }
 }
